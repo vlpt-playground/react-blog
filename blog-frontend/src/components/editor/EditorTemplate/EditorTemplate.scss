@@ -17,5 +17,13 @@
       transform: translate(-50%); // 자신의 50% 만큼 왼쪽으로 이동
       cursor: col-resize; // 리사이즈 커서
     }
+    @include media("<medium") {
+      .editor {
+        flex: 1!important;
+      }
+      .preview, .separator {
+        display: none;
+      }
+    }
   }
 }
