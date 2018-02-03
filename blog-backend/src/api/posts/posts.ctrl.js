@@ -12,7 +12,7 @@ exports.checkObjectId = (ctx, next) => {
     return;
   }
 
-  next();
+  return next();
 };
 
 /*
