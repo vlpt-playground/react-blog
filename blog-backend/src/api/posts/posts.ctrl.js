@@ -68,14 +68,20 @@ exports.list = async (ctx) => {
     return;
   }
 
+  const { tag } = ctx.query;
+
+  const query = tag ? {
+    tags: tag // tags 배열에 tag 를 가진 포스트 찾기
+  } : {};
+
   try {
-    const posts = await Post.find()
+    const posts = await Post.find(query)
       .sort({ _id: -1 })
       .limit(10)
       .skip((page - 1) * 10)
       .lean()
       .exec();
-    const postCount = await Post.count().exec();
+    const postCount = await Post.count(query).exec();
     const limitBodyLength = post => ({
       ...post,
       body: post.body.length < 200 ? post.body : `${post.body.slice(0, 200)}...`
