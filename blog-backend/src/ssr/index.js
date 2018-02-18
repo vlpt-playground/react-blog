@@ -1,7 +1,8 @@
 const render = require('./render').default;
 const manifest = require('../../../blog-frontend/build/asset-manifest.json');
 
-function buildHtml({ html, preloadedState }) {
+function buildHtml({ html, helmet, preloadedState }) {
+  const { title, meta } = helmet;
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +13,8 @@ function buildHtml({ html, preloadedState }) {
   <meta name="theme-color" content="#000000">
   <link rel="manifest" href="/manifest.json">
   <link rel="shortcut icon" href="/favicon.ico">
-  <title>React App</title>
+  ${title.toString()}
+  ${meta.toString()}
   <link href="/${manifest['app.css']}" rel="stylesheet">
 </head>
 
@@ -35,6 +37,6 @@ module.exports = async (ctx) => {
     ctx.body = buildHtml(rendered);
   } catch (e) {
     // 에러가 발생하면 일반 html 응답
-    ctx.body = buildHtml();
+    ctx.body = buildHtml({ });
   }
 };

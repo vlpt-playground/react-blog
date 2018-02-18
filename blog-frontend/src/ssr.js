@@ -6,6 +6,7 @@ import configure from 'store/configure';
 import routes from './routes';
 import axios from 'axios';
 import transit from 'transit-immutable-js';
+import { Helmet } from 'react-helmet';
 
 import App from 'components/App';
 
@@ -56,12 +57,14 @@ const render = async (ctx) => {
     </Provider>
   );
 
-    // isNotFound 값이 true 라면
-    if(context.isNotFound) {
-      ctx.status = 404; // HTTP 상태를 404로 설정해줍니다
-    }
+  // isNotFound 값이 true 라면
+  if(context.isNotFound) {
+    ctx.status = 404; // HTTP 상태를 404로 설정해줍니다
+  }
 
-  return { html, preloadedState };
+  const helmet = Helmet.renderStatic();
+
+  return { html, preloadedState, helmet };
 }
 
 export default render;
