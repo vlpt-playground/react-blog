@@ -44,15 +44,22 @@ const render = async (ctx) => {
   const preloadedState = JSON.stringify(transit.toJSON(store.getState()))
   .replace(/</g, '\\u003c');
   
+  const context = {};
+
   // renderToString 은 렌더링된 결과물을 문자열로 만들어줍니다.
   // 서버에서는 BrowserRouter 대신에 StaticRouter 를 사용합니다.
   const html = ReactDOMServer.renderToString(
     <Provider store={store}>
-      <StaticRouter location={url}>
+      <StaticRouter location={url} context={context}>
         <App/>
       </StaticRouter>
     </Provider>
   );
+
+    // isNotFound 값이 true 라면
+    if(context.isNotFound) {
+      ctx.status = 404; // HTTP 상태를 404로 설정해줍니다
+    }
 
   return { html, preloadedState };
 }
